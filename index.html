@@ -1,0 +1,94 @@
+static void LoginUser()
+         {
+             Console.Clear();
+             Console.ForegroundColor = ConsoleColor.Green;
+             Console.WriteLine("=======================================");
+             Console.WriteLine("           BOTTLEARN - LOGIN           ");
+             Console.WriteLine("=======================================");
+             Console.ResetColor();
+             if (!isRegistered)
+             {
+                 Console.ForegroundColor = ConsoleColor.Red;
+                 Console.WriteLine("No account registered yet! Please register first.");
+                 Console.ResetColor();
+                 Console.WriteLine("\nPress [Enter] to return to menu...");
+                 Console.ReadLine();
+                 return;
+             }
+             int attemptsLeft = 3;
+             while (attemptsLeft > 0)
+             {
+                 Console.Write("\nEnter Username: ");
+                 string inputUsername = Console.ReadLine();
+                 Console.Write("Enter Password: ");
+                 string inputPassword = ReadMaskedPassword();
+                 Console.WriteLine();
+                 if (inputUsername == registeredUsername && inputPassword == registeredPassword)
+                 {
+                     ShowDashboard();
+                     return; 
+                 }
+                 else
+                 {
+                     attemptsLeft--;
+                     Console.ForegroundColor = ConsoleColor.Red;
+                     Console.WriteLine("\nInvalid username or password.");
+                     if (attemptsLeft > 0)
+                     {
+                         Console.WriteLine($"You have {attemptsLeft} attempt(s) remaining.");
+                         Console.ResetColor();
+                     }
+                     else
+                     {
+                         Console.WriteLine("\nToo many failed attempts. Access Denied.");
+                         Console.ResetColor();
+                         Console.WriteLine("\nPress [Enter] to return to main menu...");
+                         Console.ReadLine();
+                     }
+                 }
+             }
+         }
+         static void ShowDashboard()
+         {
+             Console.Clear();
+             Console.ForegroundColor = ConsoleColor.Magenta;
+             Console.WriteLine("=======================================");
+             Console.WriteLine("          WELCOME TO BOTTLEARN         ");
+             Console.WriteLine("=======================================");
+             Console.ResetColor();
+             Console.WriteLine($"\nHello, {registeredUsername}! You are now successfully logged in.");
+             Console.WriteLine("Your learning environment is ready.");
+             Console.WriteLine("\nPress any key to log out and return to the main menu...");
+             Console.ReadKey();
+         }
+         /// <summary>
+         /// Reads characters one by one and replaces them with asterisks (*).
+         /// Handles backspacing gracefully.
+         /// </summary>
+         static string ReadMaskedPassword()
+         {
+             string password = "";
+             ConsoleKeyInfo keyInfo;
+             do
+             {
+                 keyInfo = Console.ReadKey(true); // 'true' hides the actual key pressed from the screen
+                 if (keyInfo.Key == ConsoleKey.Backspace)
+                 {
+                     if (password.Length > 0)
+                     {
+                         password = password.Substring(0, password.Length - 1);
+                         Console.Write("\b \b"); // Moves cursor back, replaces character with a space, moves back again
+                     }
+                 }
+                 else if (keyInfo.Key != ConsoleKey.Enter)
+                 {
+                     password += keyInfo.KeyChar;
+                     Console.Write("*");
+                 }
+             } while (keyInfo.Key != ConsoleKey.Enter);
+             return password;
+         }
+     }
+ }
+Compose
+// JavaScript source code
